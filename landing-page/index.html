@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Django Livre</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <section class="banner">
+        <div class="banner-content">
+          <h1>Django Livre</h1>
+          <p>Bem-vindo à página oficial do seu filme favorito!</p>
+        </div>
+      </section>
+
+  <div class="container">
+
+    <section class="perguntas">
+      <h2>Ficou com dúvidas? Pergunte ao criador!</h2>
+      <form id="form-pergunta">
+        <input type="text" id="nome" placeholder="Email" />
+        <textarea id="mensagem" placeholder="Digite sua pergunta aqui..." required></textarea>
+        <button type="submit">Enviar Pergunta</button>
+      </form>
+      <p id="mensagem-sucesso" class="oculto">Pergunta enviada com sucesso!</p>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
