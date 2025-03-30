@@ -60,4 +60,18 @@
     text-align: center;
     color: #888;
   }
+
+  .botao-sair{
+    background-color: #e74c3c; /* vermelho */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
   
+  .botao-sair:hover{
+    background-color: #c0392b; /* vermelho escuro no hover */
+  }
