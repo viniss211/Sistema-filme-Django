@@ -14,8 +14,8 @@ function AdminPage() {
     navigate('/');
   };
 
-  // Buscar perguntas ao carregar a página
-  useEffect(() => {
+  // Função para buscar perguntas
+  const buscarPerguntas = () => {
     fetch('/buscar-perguntas')
       .then(res => res.json())
       .then(data => {
@@ -23,6 +23,11 @@ function AdminPage() {
         setRespondidas(data.filter(p => p.resposta));
       })
       .catch(err => console.error('Erro ao buscar perguntas:', err));
+  };
+
+  // Buscar ao carregar
+  useEffect(() => {
+    buscarPerguntas();
   }, []);
 
   // Atualizar campo de resposta
@@ -66,7 +71,11 @@ function AdminPage() {
   return (
     <div className="admin-container">
       <h2>Painel Administrativo</h2>
-      <button className="botao-sair" onClick={sair}>Sair</button>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+        <button className="botao-sair" onClick={sair}>Sair</button>
+        <button className="botao-refresh" onClick={buscarPerguntas}>Atualizar perguntas</button>
+      </div>
+
       {mensagem && <p className="mensagem">{mensagem}</p>}
 
       <h3>Perguntas Pendentes</h3>

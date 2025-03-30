@@ -35,7 +35,15 @@
       const nome = document.getElementById('nome').value;
       const email = document.getElementById('email').value;
       const mensagem = document.getElementById('mensagem').value;
-  
+      
+      // Regex básico de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email)) {
+        alert("Por favor, insira um e-mail válido.");
+        return;
+      }
+
       if (!mensagem) {
         alert("A pergunta não pode estar vazia.");
         return;
