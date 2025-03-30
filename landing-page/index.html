@@ -8,19 +8,19 @@
 </head>
 <body>
 
-    <section class="banner">
-        <div class="banner-content">
-          <h1>Django Livre</h1>
-          <p>Bem-vindo à página oficial do seu filme favorito!</p>
-        </div>
-      </section>
+  <section class="banner">
+    <div class="banner-content">
+      <h1>Django Livre</h1>
+      <p>Bem-vindo à página oficial do seu filme!</p>
+    </div>
+  </section>
 
   <div class="container">
-
     <section class="perguntas">
       <h2>Ficou com dúvidas? Pergunte ao criador!</h2>
       <form id="form-pergunta">
-        <input type="text" id="nome" placeholder="Email" />
+        <input type="text" id="nome" placeholder="Nome" />
+        <input type="text" id="email" placeholder="Email" />
         <textarea id="mensagem" placeholder="Digite sua pergunta aqui..." required></textarea>
         <button type="submit">Enviar Pergunta</button>
       </form>
@@ -28,6 +28,44 @@
     </section>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.getElementById('form-pergunta').addEventListener('submit', async function(e) {
+      e.preventDefault();
+  
+      const nome = document.getElementById('nome').value;
+      const email = document.getElementById('email').value;
+      const mensagem = document.getElementById('mensagem').value;
+  
+      if (!mensagem) {
+        alert("A pergunta não pode estar vazia.");
+        return;
+      }
+  
+      try {
+        const resposta = await fetch('http://localhost:3000/criar-pergunta', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome,
+            email: email, // opcional ou pode criar outro input para e-mail
+            pergunta: mensagem
+          })
+        });
+  
+        const resultado = await resposta.json();
+  
+        if (resposta.ok) {
+          document.getElementById('mensagem-sucesso').classList.remove('oculto');
+          document.getElementById('form-pergunta').reset();
+        } else {
+          alert(resultado.erro || 'Erro ao enviar pergunta.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Erro de conexão com o servidor.');
+      }
+    });
+  </script>
+  
 </body>
 </html>
