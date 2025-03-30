@@ -10,16 +10,21 @@ function AdminPage() {
   const navigate = useNavigate();
 
   const sair = () => {
+  localStorage.removeItem('autenticado');
   navigate('/');
   };
 
 
   // Buscar perguntas ao carregar a página
   useEffect(() => {
+    const logado = localStorage.getItem('autenticado');
+    if (logado !== 'true') {
+    navigate('/');
+    }
     fetch('/buscar-perguntas')
       .then(res => res.json())
       .then(data => {
-        console.log('Dados recebidos da API:', data); // 👈 debug
+        console.log('Dados recebidos da API:', data); 
         setPerguntas(data);
       })
       .catch(err => console.error('Erro ao buscar perguntas:', err));

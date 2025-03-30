@@ -1,7 +1,18 @@
 require('dotenv').config(); // carrega o .env
 const mongoose = require('mongoose');
 const Pergunta = require('./models/Pergunta');
+const Usuario = require('./models/Usuario');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER, // seu email
+    pass: process.env.EMAIL_PASS  // senha ou app password
+  }
+});
+
 // Conectar ao MongoDB local
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB conectado!'))
@@ -62,7 +73,6 @@ app.post('/responder-pergunta', async (req, res) => {
   if (!id || !resposta) {
     return res.status(400).json({ erro: 'ID da pergunta e resposta são obrigatórios.' });
   }
-  console.log('req.body recebido:', req.body);
 
   try {
     const perguntaAtualizada = await Pergunta.findByIdAndUpdate(
@@ -75,18 +85,25 @@ app.post('/responder-pergunta', async (req, res) => {
       return res.status(404).json({ erro: 'Pergunta não encontrada.' });
     }
 
+    // Enviar e-mail
+    await transporter.sendMail({
+      from: `"Oracclum" <${process.env.EMAIL_USER}>`,
+      to: perguntaAtualizada.email,
+      subject: 'Resposta à sua pergunta sobre Django Livre',
+      text: `Olá ${perguntaAtualizada.nome || 'amigo'},\n\nSua pergunta:\n"${perguntaAtualizada.pergunta}"\n\nFoi respondida com:\n"${resposta}"\n\nObrigado por participar!`
+    });
+
+    console.log('✅ Email enviado com sucesso!');
+
     res.status(200).json({ mensagem: 'Pergunta respondida com sucesso!', pergunta: perguntaAtualizada });
+
   } catch (err) {
+    console.error('❌ Erro ao enviar e-mail:', err);
     res.status(500).json({ erro: 'Erro ao responder a pergunta.' });
   }
 });
 
   
-  
-const usuarioAdmin = {
-    email: "admin@email.com",
-    senha: "123456" // no futuro pode ser criptografado
-  };
 // REQUISIÇÂO POST PARA LOGIN
 app.post('/login', (req, res) => {
     const { email, senha } = req.body;
@@ -101,4 +118,21 @@ app.post('/login', (req, res) => {
 //Inicializa o servidor 
 app.listen(port,()=>{
     console.log(`Servidor rodando em http://localhost:${port}`);
+});
+
+app.post('/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    const usuario = await Usuario.findOne({ email });
+
+    if (!usuario || usuario.senha !== senha) {
+      return res.status(401).json({ erro: 'Credenciais inválidas.' });
+    }
+
+    res.status(200).json({ mensagem: 'Login realizado com sucesso!' });
+  } catch (err) {
+    console.error('Erro ao fazer login:', err);
+    res.status(500).json({ erro: 'Erro no servidor ao tentar login.' });
+  }
 });

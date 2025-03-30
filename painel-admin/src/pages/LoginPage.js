@@ -19,6 +19,7 @@ function LoginPage() {
       });
 
       if (response.ok) {
+        localStorage.setItem('autenticado', 'true');
         navigate('/admin');
       } else {
         const erroData = await response.json();
