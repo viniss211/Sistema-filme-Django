@@ -1,4 +1,4 @@
-# 🧙‍♂️ Oracclum - Perguntas & Respostas sobre Django Livre
+# Perguntas & Respostas sobre Django Livre 🤠
 
 Projeto full stack com frontend institucional estático, painel de administração em React e backend Node.js com MongoDB, para recebimento e resposta de perguntas com envio automático por e-mail.
 
