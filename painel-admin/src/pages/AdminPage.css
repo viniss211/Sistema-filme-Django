@@ -62,7 +62,7 @@
   }
 
   .botao-sair{
-    background-color: #e74c3c; /* vermelho */
+    background-color: #e74c3c; 
     color: white;
     border: none;
     padding: 10px 20px;
@@ -73,5 +73,20 @@
   }
   
   .botao-sair:hover{
-    background-color: #c0392b; /* vermelho escuro no hover */
+    background-color: #c0392b;
   }
+
+  .botao-refresh {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.6rem 1rem;
+    margin-left: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .botao-refresh:hover {
+    background-color: #218838;
+  }
+  

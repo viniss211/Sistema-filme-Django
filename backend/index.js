@@ -1,3 +1,16 @@
+/**
+ * index.js
+ *
+ * API backend construída com Node.js e Express.
+ * Responsável por:
+ * - Criar e armazenar perguntas no MongoDB
+ * - Recuperar perguntas (pendentes e respondidas)
+ * - Enviar respostas com envio de e-mail automático (via Nodemailer)
+ * - Realizar autenticação simples de administrador
+ *
+ * Tecnologias: Express, MongoDB (Mongoose), Nodemailer, CORS, dotenv
+ */
+
 require('dotenv').config(); // carrega o .env
 const mongoose = require('mongoose');
 const Pergunta = require('./models/Pergunta');
@@ -8,36 +21,28 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER, // seu email
-    pass: process.env.EMAIL_PASS  // senha ou app password
+    user: process.env.EMAIL_USER, 
+    pass: process.env.EMAIL_PASS  
   }
 });
 
-// Conectar ao MongoDB local
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB conectado!'))
 .catch(err => console.error('Erro ao conectar no MongoDB:', err));
 
-
-//Importar módulo express (framework web pro node)
 const express = require('express');
 
-//Agr criando aplicação express
 const app = express();
 
-//Porta 3000
 const port = 3000;
 
-// Permitindo que o servidor entenda arquivos json
 app.use(cors());
 app.use(express.json())
 
-//Criando a rota do GET
 app.get('/', (req,res)=>{
     res.send('API do Django funcionando');
 });
 
-//REQUISIÇÃO POST CRIAR PERGUNT
 app.post('/criar-pergunta', async (req, res) => {
   const { nome, email, pergunta } = req.body;
 
@@ -55,10 +60,9 @@ app.post('/criar-pergunta', async (req, res) => {
 });
 
 
-//REQUISIÇÃO GET BUSCAR PERGUNTA
 app.get('/buscar-perguntas', async (req, res) => {
   try {
-    const perguntas = await Pergunta.find().sort({ data: -1 }); // mais recentes primeiro
+    const perguntas = await Pergunta.find().sort({ data: -1 }); 
     res.status(200).json(perguntas);
   } catch (err) {
     res.status(500).json({ erro: 'Erro ao buscar perguntas.' });
@@ -66,7 +70,6 @@ app.get('/buscar-perguntas', async (req, res) => {
 });
 
 
-//REQUISIÇÃO RESPONDER-PERGUNTA
 app.post('/responder-pergunta', async (req, res) => {
   const { id, resposta } = req.body;
 

@@ -10,8 +10,56 @@
 
   <section class="banner">
     <div class="banner-content">
-      <h1>Django Livre</h1>
-      <p>Bem-vindo à página oficial do seu filme!</p>
+
+      <!-- Slider à esquerda -->
+      <div class="slider">
+        <img src="img/slider-img-1.jpg" class="active" />
+        <img src="img/slider-img-2.jpg"  />
+        <img src="img/slider-img-3.jpg"  />
+        <img src="img/slider-img-4.jpg"  />
+        <img src="img/slider-img-5.jpg" />
+        <img src="img/slider-img-6.jpg"  />
+      </div>
+
+      <!-- Texto central -->
+      <div class="texto-banner">
+        <h1>Django Livre</h1>
+        <p>Bem-vindo à página oficial do filme!</p>
+      </div>
+
+      <!-- Trailer à direita -->
+      <div class="trailer">
+        <iframe
+          src="https://www.youtube.com/embed/tivv135aGbc"
+          title="Trailer de Django Livre"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Outras seções continuam abaixo -->
+  <section class="disponivel">
+    <h2>Mais informações sobre o filme</h2>
+    <div class="cards">
+      <a href="https://www.imdb.com/pt/title/tt1853728/" target="_blank" class="card-filme">
+        <img src="img/logo-IMDB.jpg" alt="Django - Pôster 1" />
+        <p>Avaliação IMDb do filme</p>
+      </a>
+      <a href="https://open.spotify.com/playlist/610Sl0QMWLIN4vmwPuMm03?si=25481859a5f24db1" target="_blank" class="card">
+        <img src="img/logo-Spotify.jpg" alt="Trilha sonora">
+        <p>Trilha sonora marcante disponível no Spotify</p>
+      </a>
+      <a href="https://www.oscars.org/oscars/ceremonies/2013" target="_blank" class="card">
+        <img src="img/tarantino-oscar.jpg" alt="Prêmios e indicações">
+        <p>Vencedor do Oscar de Melhor Roteiro</p>
+      </a>
+      <a href="https://aventurasnahistoria.com.br/noticias/vitrine/historia-de-bass-reeves-o-primeiro-delegado-negro-da-historia.phtml" target="_blank" class="card">
+        <img src="img/bass-reeves.jpg" alt="Prêmios e indicações">
+        <p>Bass Reeves - O delegado negro que inspirou a história de Django!</p>
+      </a>
     </div>
   </section>
 
@@ -29,31 +77,43 @@
   </div>
 
   <script>
+    const slides = document.querySelectorAll('.slider img');
+    let current = 0;
+
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 3000);
+
     document.getElementById('form-pergunta').addEventListener('submit', async function(e) {
       e.preventDefault();
   
       const nome = document.getElementById('nome').value;
       const email = document.getElementById('email').value;
       const mensagem = document.getElementById('mensagem').value;
-  
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!emailRegex.test(email)) {
+        alert("Por favor, insira um e-mail válido.");
+        return;
+      }
+
       if (!mensagem) {
         alert("A pergunta não pode estar vazia.");
         return;
       }
-  
+
       try {
         const resposta = await fetch('http://localhost:3000/criar-pergunta', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nome,
-            email: email, // opcional ou pode criar outro input para e-mail
-            pergunta: mensagem
-          })
+          body: JSON.stringify({ nome, email, pergunta: mensagem })
         });
-  
+
         const resultado = await resposta.json();
-  
+
         if (resposta.ok) {
           document.getElementById('mensagem-sucesso').classList.remove('oculto');
           document.getElementById('form-pergunta').reset();
@@ -66,6 +126,5 @@
       }
     });
   </script>
-  
 </body>
 </html>
