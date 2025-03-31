@@ -1,3 +1,18 @@
+/**
+ * AdminPage.js
+ *
+ * Página administrativa da aplicação onde é possível:
+ * - Visualizar perguntas enviadas por usuários (pendentes e respondidas)
+ * - Escrever e enviar respostas para perguntas pendentes
+ * - Atualizar a lista de perguntas manualmente
+ * - Sair da sessão administrativa
+ *
+ * Recursos:
+ * - Busca de perguntas da API
+ * - Filtragem por pendentes e respondidas
+ * - Envio de resposta com feedback visual ("Aguarde..." e mensagens)
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminPage.css';
@@ -7,6 +22,7 @@ function AdminPage() {
   const [mensagem, setMensagem] = useState('');
   const [pendentes, setPendentes] = useState([]);
   const [respondidas, setRespondidas] = useState([]);
+  const [aguardandoResposta, setAguardandoResposta] = useState({});
   const navigate = useNavigate();
 
   const sair = () => {
@@ -14,7 +30,6 @@ function AdminPage() {
     navigate('/');
   };
 
-  // Função para buscar perguntas
   const buscarPerguntas = () => {
     fetch('/buscar-perguntas')
       .then(res => res.json())
@@ -25,20 +40,20 @@ function AdminPage() {
       .catch(err => console.error('Erro ao buscar perguntas:', err));
   };
 
-  // Buscar ao carregar
   useEffect(() => {
     buscarPerguntas();
   }, []);
 
-  // Atualizar campo de resposta
   const handleRespostaChange = (id, texto) => {
     setRespostas(prev => ({ ...prev, [id]: texto }));
   };
 
-  // Enviar resposta
   const enviarResposta = async (id) => {
     const resposta = respostas[id];
     if (!resposta) return;
+
+    setAguardandoResposta(prev => ({ ...prev, [id]: true }));
+    setMensagem('');
 
     try {
       const res = await fetch('/responder-pergunta', {
@@ -65,6 +80,8 @@ function AdminPage() {
     } catch (err) {
       console.error(err);
       setMensagem('Erro de conexão com o servidor.');
+    } finally {
+      setAguardandoResposta(prev => ({ ...prev, [id]: false }));
     }
   };
 
@@ -91,6 +108,9 @@ function AdminPage() {
             onChange={(e) => handleRespostaChange(pergunta._id, e.target.value)}
           />
           <button onClick={() => enviarResposta(pergunta._id)}>Enviar Resposta</button>
+          {aguardandoResposta[pergunta._id] && (
+            <p className="aguarde-msg">Aguarde...</p>
+          )}
         </div>
       ))}
 
