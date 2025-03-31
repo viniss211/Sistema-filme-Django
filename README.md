@@ -1,4 +1,4 @@
-# 🧙‍♂️ Oracclum - Perguntas & Respostas sobre Django Livre
+# Perguntas & Respostas sobre Django Livre
 
 Projeto full stack com frontend institucional estático, painel de administração em React e backend Node.js com MongoDB, para recebimento e resposta de perguntas com envio automático por e-mail.
 
@@ -57,7 +57,6 @@ Baixe em: https://www.mongodb.com/try/download/compass
 - Abra o Compass
 - Crie um banco chamado `oracclum`
 - Crie uma coleção chamada `perguntas` e outra `usuarios`
-- (Opcional) Crie um usuário no banco `admin` com permissão de leitura e escrita:
 
 ```json
 {
@@ -105,7 +104,7 @@ cd ../painel-admin
 npm install
 ```
 
-### 10. Inicie o painel React
+### 10. Inicie o painel React(O backend e painel React estão programados para rodar na mesma porta, então ao iniciar o painel apenas confirme que o mesmo seja rodado e outra porta)
 
 ```bash
 npm start
@@ -193,8 +192,6 @@ Senha: 123456
 }
 ```
 
-> ⚠️ Em produção, use hashing (ex: bcrypt)
-
 ---
 
 ## 📬 Como funciona
@@ -208,7 +205,7 @@ Senha: 123456
 ## 🛠️ Tecnologias
 
 - **Frontend público**: HTML, CSS
-- **Painel**: React + React Router DOM
+- **Painel**: React
 - **Backend**: Node.js, Express, Nodemailer
 - **Banco de Dados**: MongoDB
 - **E-mail**: Gmail + App Password
