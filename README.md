@@ -62,22 +62,10 @@ Baixe em: https://www.mongodb.com/try/download/compass
 
 - Abra o Compass
 - Crie um banco chamado `oracclum`
-- Crie uma coleção chamada `perguntas`
-- (Opcional) Crie um usuário no banco `admin` com permissão de leitura e escrita:
+- Crie uma coleção chamada `perguntas` e outra `usuarios`
 
 ```bash
 mongosh
-```
-
-```js
-use admin
-
-db.createUser({
-  user: "meuusuario",
-  pwd: "minhasenha",
-  roles: [ { role: "readWrite", db: "oracclum" } ]
-})
-```
 
 ---
 
