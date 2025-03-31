@@ -30,7 +30,7 @@ Projeto full stack com frontend institucional estático, painel de administraç�
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/oracclum.git
+[git clone https://github.com/viniss211/Sistema-filme-Django.git
 cd oracclum
 ```
 
