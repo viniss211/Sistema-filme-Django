@@ -119,7 +119,7 @@ npm start
 
 ### 11. Acesse o `index.html`
 
-Abra o arquivo diretamente no navegador(recomendo o uso da extensão lives server do VScode):
+Abra o arquivo diretamente no navegador(recomendo o uso da extensão live server do VScode):
 
 ```bash
 landing-page/index.html
