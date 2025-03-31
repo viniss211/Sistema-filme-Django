@@ -1,3 +1,18 @@
+/**
+ * LoginPage.js
+ *
+ * Página de login da aplicação administrativa.
+ * Permite que o administrador entre com email e senha.
+ * Em caso de sucesso, redireciona para a página de administração.
+ *
+ * Recursos:
+ * - Campos controlados para email e senha
+ * - Validação simples no front-end
+ * - Requisição POST para autenticação via API
+ * - Armazenamento de token simples no localStorage
+ * - Exibição de mensagens de erro
+ */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
